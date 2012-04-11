@@ -1,0 +1,20 @@
+Metadata-Version: 1.0
+Name: cloud-ide
+Version: 1.0.0
+Summary: Django social authentication made simple.
+Home-page: https://github.com/yuguang/cloud_ide
+Author: Yuguang Zhang
+Author-email: zh.yuguang.cn@gmail.com
+License: GPL
+Description: Cloud IDE provides storage, authentication, and generic templates for fiddles.
+Keywords: django,openid,oauth,social auth,application
+Platform: UNKNOWN
+Classifier: Framework :: Django
+Classifier: Development Status :: 4 - Beta
+Classifier: Topic :: Internet
+Classifier: License :: OSI Approved :: GPL License
+Classifier: Intended Audience :: Developers
+Classifier: Environment :: Web Environment
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
