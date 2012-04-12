@@ -112,6 +112,11 @@ languageMeta = {
         'description': 'Compile Jade templates to HTML and preview the result with syntax highlighting. See everything you need at once with panels for CSS, JavaScript, and Jade. ',
         'keywords': 'jade support, ide with jade support'
     },
+    'coffeecup': {
+        'title': 'Coffeecup Template Language Editor',
+        'description': 'Coffeecup and CSS editor with syntax highlighting and live results. ',
+        'keywords': 'coffeecup editor, online coffeecup editor'
+    },
     'zencoding': {
         'title': 'Zen Coding',
         'description': 'Write HTML quickly using a CSS-like selector syntax. Preview document and style changes instantly. ',

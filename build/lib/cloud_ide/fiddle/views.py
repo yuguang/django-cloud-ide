@@ -14,10 +14,16 @@ def create(request, language=None):
     view_model = json.dumps(dict(defaultFiddle, **{
             'authenticated': request.user.is_authenticated()
         }))
+    if language:
+        default_meta = languageMeta.get(language, None)
+        if not default_meta:
+            return HttpResponseForbidden()
+    else:
+        default_meta = defaultMeta
     return render_to_response('index.html', {
         'form': form,
         'view_model': view_model,
-        'default_meta': languageMeta[language] if language else defaultMeta
+        'default_meta': default_meta
     }, context_instance=RequestContext(request))
 
 
