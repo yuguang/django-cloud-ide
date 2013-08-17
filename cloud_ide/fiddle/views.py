@@ -7,7 +7,6 @@ from jsonresponse import JsonResponse
 
 from forms import SnippetForm
 from models import Language, Snippet, defaultFiddle, defaultMeta, languageMeta
-
     
 def create(request, language=None):
     form = SnippetForm()
@@ -39,7 +38,7 @@ def save(request):
     
     try: # load the snippet
         snippet = Snippet.objects.get(title=snippet_title)
-        if request.user.id != snippet.author.id:
+        if request.user.username != snippet.author.username:
             return HttpResponseForbidden()
     except Snippet.DoesNotExist: # create new snippet
         snippet = Snippet(author=request.user)
@@ -78,13 +77,12 @@ def open(request, snippet_slug=None, embedded=False, language=None):
     view_model = json.dumps(dict(defaultFiddle, **{
             'newFiddle': False,
             'authenticated': request.user.is_authenticated(),
-            'isOwner': request.user.id == snippet.author.id
+            'isOwner': request.user.username == snippet.author.username
         }))
     return render_to_response('index.html', {
         'snippet': snippet,
         'form': form,
         'view_model': view_model,
         'embedded': embedded,
-        'ownerId': snippet.author.id
+        'ownerId': snippet.author.username
     }, context_instance=RequestContext(request))
-   
