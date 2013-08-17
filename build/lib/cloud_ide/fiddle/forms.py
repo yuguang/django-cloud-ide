@@ -7,13 +7,13 @@ class SnippetForm(ModelForm):
         fields = ('title', 'description', 'tags')
         widgets = {
             'title': TextInput(attrs={
-                'class': 'required letterswithspace check-spelling',
+                'class': 'required letterswithspace',
                 'minWords': '3',
                 'data-bind': 'value: title, attr: { readonly: !newFiddle() }'
             }),
             'description': Textarea(attrs={
                 'class': 'required',
-                'minWords': '10',
+                'minWords': '5',
                 'data-bind': 'value: description'
             }),
             'tags': TextInput(attrs={

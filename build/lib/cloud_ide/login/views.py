@@ -13,7 +13,7 @@ def login(request):
 
 @login_required
 def done(request):
-    return render_to_response('login/done.html', {'userId': request.user.id}, RequestContext(request))
+    return render_to_response('login/done.html', {'userId': request.user.username}, RequestContext(request))
 
 
 def logout(request):
