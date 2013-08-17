@@ -22,4 +22,5 @@ cloud_ide/shared/__init__.py
 cloud_ide/shared/urls.py
 cloud_ide/snippet/__init__.py
 cloud_ide/snippet/urls.py
+cloud_ide/snippet/utils.py
 cloud_ide/snippet/views.py
