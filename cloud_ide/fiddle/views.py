@@ -4,6 +4,7 @@ from django.http import HttpResponseForbidden
 from django.template import RequestContext
 import django.utils.simplejson as json
 from jsonresponse import JsonResponse
+from django.db.models import Count
 
 from forms import SnippetForm
 from models import Language, Snippet, defaultFiddle, defaultMeta, languageMeta
@@ -70,6 +71,19 @@ def check_title(request):
             available = True
     return JsonResponse({'available': available})
 
+def tag_hint(request):
+    q = request.GET.get('q', '')
+    results = []
+    if len(q) > 0:
+        tag_qs = Experiment.tags.filter(name__startswith=q)
+        annotated_qs = tag_qs.annotate(count=Count('taggit_taggeditem_items__id'))
+
+        for obj in annotated_qs.order_by('-count', 'slug')[:10]:
+            results.append({
+                'tag': obj.slug,
+                'count': obj.count,
+            })
+    return HttpResponse(json.dumps(results), mimetype='application/json')
 
 def open(request, snippet_slug=None, embedded=False, language=None):
     snippet = get_object_or_404(Snippet, slug=snippet_slug)
