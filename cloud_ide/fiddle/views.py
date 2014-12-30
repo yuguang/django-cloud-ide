@@ -75,7 +75,7 @@ def tag_hint(request):
     q = request.GET.get('q', '')
     results = []
     if len(q) > 0:
-        tag_qs = Experiment.tags.filter(name__startswith=q)
+        tag_qs = Snippet.tags.filter(name__startswith=q)
         annotated_qs = tag_qs.annotate(count=Count('taggit_taggeditem_items__id'))
 
         for obj in annotated_qs.order_by('-count', 'slug')[:10]:
