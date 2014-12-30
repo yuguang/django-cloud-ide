@@ -5,6 +5,7 @@ from django.template import RequestContext
 import django.utils.simplejson as json
 from jsonresponse import JsonResponse
 from django.db.models import Count
+from django.http import HttpResponse
 
 from forms import SnippetForm
 from models import Language, Snippet, defaultFiddle, defaultMeta, languageMeta
