@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager, GenericTaggedItemBase
+from taggit.models import TagBase
 from django.template.defaultfilters import slugify
 from compression import CompressedTextField
 from django.db.models import permalink, Count
@@ -21,12 +22,20 @@ class SnippetManager(models.Manager):
     def matches_tag(self, tag):
         return self.filter(tags__in=[tag])
 
+class LowerCaseTag(TagBase):
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        super(LowerCaseTag, self).save(*args, **kwargs)
+
+class LowerCaseTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(LowerCaseTag, related_name="tagged_items")
+
 class Snippet(models.Model):
     title = models.CharField(max_length=80)
     slug = models.SlugField(max_length=100)
     author = models.ForeignKey(User)
     description = models.CharField(max_length=300)
-    tags = TaggableManager()
+    tags = TaggableManager(through=LowerCaseTaggedItem)
     last_modified = models.DateTimeField(auto_now=True)
     code = CompressedTextField()
     language = models.ForeignKey(Language)
