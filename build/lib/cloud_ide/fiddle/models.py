@@ -3,17 +3,21 @@ from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
 from compression import CompressedTextField
+from django.db.models import permalink, Count
 
 class Language(models.Model):
     name = models.CharField(max_length=30)
 
+    @permalink
     def get_absolute_url(self):
-        return "/%s/" % self.name
+        return ('fiddle_language_detail', (), {'slug': self.name})
 
 class SnippetManager(models.Manager):
+    def top_authors(self):
+        return User.objects.annotate(score=Count('snippet')).order_by('-score', 'username')
     def top_tags(self):
         return self.model.tags.most_common().order_by('-num_times', 'name')
-    
+
     def matches_tag(self, tag):
         return self.filter(tags__in=[tag])
 
@@ -26,9 +30,9 @@ class Snippet(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     code = CompressedTextField()
     language = models.ForeignKey(Language)
-    
+
     objects = SnippetManager()
-    
+
     class Meta:
         ordering = ('-last_modified',)
 
@@ -40,8 +44,11 @@ class Snippet(models.Model):
         return ", ".join([t.name for t in self.tags.all()])
 
     def get_absolute_url(self):
-        return "/%s/" % self.slug
-    
+        if Language.objects.count() > 1:
+            return "/%s/%s/" % (self.language.name, self.slug)
+        else:
+            return "/%s/" % self.slug
+
     def __unicode__(self):
         return self.title
 
@@ -64,13 +71,18 @@ languageMeta = {
     },
     'coffeescript': {
         'title': 'Live CoffeeScript IDE',
-        'description': 'Write CoffeeScript and preview the compiled JavaScript side-by-side. Results are updated on the fly with the compiled CoffeeScript. ',
-        'keywords': 'coffeescript, preview compiled javascript, coffeescript debugging'
+        'description': 'Write CoffeeScript and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you write CoffeeScript. ',
+        'keywords': 'coffeescript ide, coffeescript, coffee script ide, coffeescript fiddle, coffeescript debugging'
+    },
+    'typescript': {
+        'title': 'TypeScript Web IDE',
+        'description': 'Write TypeScript and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you write TypeScript. ',
+        'keywords': 'typescript ide, typescript, type script ide, typescript fiddle'
     },
     'javascript': {
         'title': 'JavaScript & jQuery IDE',
         'description': 'JavaScript and jQuery IDE with code completion, on-the-fly code analysis, and a hands-on learning environment. ',
-        'keywords': 'javascript, javascript editor, javascript auto-complete, jquery auto-complete, javascript debugging'
+        'keywords': 'javascript fiddle, jquery ide, javascript editor'
     },
     'sass': {
         'title': 'SASS & Compass Editor',
@@ -85,7 +97,7 @@ languageMeta = {
     'less': {
         'title': 'Less CSS Editor',
         'description': 'Simplify your style sheets with LESS, an extension of CSS. Preview results and view source in separate panels on the side. ',
-        'keywords': 'lesscss, lesscss ide'
+        'keywords': 'less css editor, lesscss, lesscss ide'
     },
     'stylus': {
         'title': 'Stylus & Nib Editor',
@@ -93,13 +105,13 @@ languageMeta = {
         'keywords': 'stylus support, ide with stylus support'
     },
     'css': {
-        'title': 'Instant CSS Coding Environment',
+        'title': 'CSS Playground',
         'description': 'Experiment with HTML, CSS, and live preview all in flexible windows that can be dragged and resized. ',
-        'keywords': 'css preview, wysiwyg css editor'
+        'keywords': 'css fiddle, css preview, wysiwyg css editor'
     },
     'html': {
         'title': 'HTML Editor with Preview',
-        'description': 'Edit HTML with a preview panel on the side. Test the latest HTML5 tags and CSS3 styles. ',
+        'description': 'Edit HTML with a preview panel on the side. Test the latest HTML5 tags and CSS3 styles. See everything you need at once with panels for CSS, JavaScript, and HTML. ',
         'keywords': 'wysiwyg web ide, wysiwyg html editor, live html editor'
     },
     'haml': {
@@ -109,13 +121,23 @@ languageMeta = {
     },
     'jade': {
         'title': 'Jade Template Language Editor',
-        'description': 'Compile Jade templates to HTML and preview the result with syntax highlighting. See everything you need at once with panels for CSS, JavaScript, and Jade. ',
+        'description': 'Compile Jade templates to HTML and preview the result with syntax highlighting. Convert HTML to Jade with the built-in HTML to Jade converter.  ',
         'keywords': 'jade support, ide with jade support'
     },
-    'coffeecup': {
-        'title': 'Coffeecup Template Language Editor',
-        'description': 'Coffeecup and CSS editor with syntax highlighting and live results. ',
-        'keywords': 'coffeecup editor, online coffeecup editor'
+    'coffeekup': {
+        'title': 'Coffeekup Template Language Editor',
+        'description': 'Coffeekup and CSS editor with syntax highlighting and live results. ',
+        'keywords': 'coffeekup editor, online coffeekup editor'
+    },
+    'roy': {
+        'title': 'Programming with Roy',
+        'description': 'Compile Roy to JavaScript. Debug and run Roy in an interactive playground along with HTML and CSS. ',
+        'keywords': 'roy editor, roy syntax highlighting, roy compiler, roy language'
+    },
+    'markdown': {
+        'title': 'Online Markdown Editor',
+        'description': 'Edit Markdown live with preview, syntax highlighting. ',
+        'keywords': 'markdown editor, online markdown editor'
     },
     'zencoding': {
         'title': 'Zen Coding',

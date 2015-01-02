@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='cloud_ide',
-    version='1.0.1',
+    version='1.0.2',
     author='Yuguang Zhang',
     author_email='zh.yuguang.cn@gmail.com',
     description='Django social authentication made simple.',
