@@ -74,6 +74,11 @@ languageMeta = {
         'description': 'Write CoffeeScript and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you write CoffeeScript. ',
         'keywords': 'coffeescript ide, coffeescript, coffee script ide, coffeescript fiddle, coffeescript debugging'
     },
+    'opal': {
+        'title': 'Live Opalrb Editor',
+        'description': 'Try Opal, a Ruby to JavaScript compiler which includes an implementation of the Ruby corelib. ',
+        'keywords': 'opal ide, opalrb, opal ruby ide'
+    },
     'typescript': {
         'title': 'TypeScript Web IDE',
         'description': 'Write TypeScript and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you write TypeScript. ',
