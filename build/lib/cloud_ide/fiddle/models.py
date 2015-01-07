@@ -4,6 +4,7 @@ from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
 from compression import CompressedTextField
 from django.db.models import permalink, Count
+from django.utils.translation import ugettext_lazy as _
 
 class Language(models.Model):
     name = models.CharField(max_length=30)
@@ -22,11 +23,11 @@ class SnippetManager(models.Manager):
         return self.filter(tags__in=[tag])
 
 class Snippet(models.Model):
-    title = models.CharField(max_length=80)
+    title = models.CharField(_('Title'), max_length=80)
     slug = models.SlugField(max_length=100)
     author = models.ForeignKey(User)
-    description = models.CharField(max_length=300)
-    tags = TaggableManager()
+    description = models.CharField(_('Description'), max_length=300)
+    tags = TaggableManager(_('Tags'))
     last_modified = models.DateTimeField(auto_now=True)
     code = CompressedTextField()
     language = models.ForeignKey(Language)
