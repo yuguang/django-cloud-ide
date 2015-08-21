@@ -5,7 +5,6 @@ from setuptools import setup
 setup(name='cloud_ide',
     version='1.1.0',
     author='Yuguang Zhang',
-    author_email='zh.yuguang.cn@gmail.com',
     description='Django social authentication made simple.',
     license='GPL',
     keywords='django, openid, oauth, social auth, application',
