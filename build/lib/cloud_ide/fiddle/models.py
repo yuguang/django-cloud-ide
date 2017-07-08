@@ -85,6 +85,11 @@ languageMeta = {
         'description': 'Write TypeScript and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you write TypeScript. ',
         'keywords': 'typescript ide, typescript, type script ide, typescript fiddle'
     },
+    'babel': {
+        'title': 'Live Babel + JSX Editor',
+        'description': 'Write JSX/ES6 and preview the compiled JavaScript side-by-side. HTML DOM is refreshed automatically as you type. ',
+        'keywords': 'jsx ide, jsx, es6 ide, jsx fiddle'
+    },
     'javascript': {
         'title': 'JavaScript & jQuery IDE',
         'description': 'JavaScript and jQuery IDE with code completion, on-the-fly code analysis, and a hands-on learning environment. ',
@@ -151,3 +156,4 @@ languageMeta = {
         'keywords': 'zen coding, zen coding editor'
     },
 }
+
